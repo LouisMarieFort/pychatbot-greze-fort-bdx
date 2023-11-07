@@ -12,5 +12,3 @@ def authors_name(fileName: str):
     while fileName[beginningIndex - 1] != '_':
         beginningIndex -= 1
     return fileName[beginningIndex : endIndex]
-
-#git test
