@@ -1,5 +1,3 @@
-from os import path
-
 def authors_name(fileName: str):
     """
     Return the name of the text's author
@@ -46,9 +44,3 @@ def remove_file_punctuation(fileName: str):
     file = open("./cleaned/" + fileName, 'w', encoding = 'UTF-8')
     file.write(text)
     file.close()
-
-create_cleaned_file("Nomination_Chirac1.txt")
-remove_file_punctuation("Nomination_Chirac1.txt")
-text = "a,;bd"
-text = text.replace(',', 'A')
-print(text)
