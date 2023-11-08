@@ -1,3 +1,5 @@
+from os import path
+
 def authors_name(fileName: str):
     """
     Return the name of the text's author
@@ -19,3 +21,18 @@ def president_first_name(secondName: str):
         return presidents[secondName]
     print("Ce président n'est pas enregistré.")
     return None
+
+def president_list_display():
+    """Display the list of the presidents' name. Return None"""
+    print("Jacques Chirac", "Valéry Giscard d'Estaing", "François Mitterrand", "Emmanuel Macron", "Nicolas Sarkozy")
+    return None
+
+def create_cleaned_file(fileName: str):
+    file = open("./speeches/" + fileName, 'r', encoding='UTF-8')
+    cleanedFile = open("./cleaned/" + fileName, 'w', encoding='UTF-8')
+    for line in file.readlines():
+        cleanedFile.write(line.lower())
+
+
+
+print(create_cleaned_file("Nomination_Chirac1.txt"))
