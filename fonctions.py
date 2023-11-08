@@ -12,3 +12,10 @@ def authors_name(fileName: str):
     while fileName[beginningIndex - 1] != '_':
         beginningIndex -= 1
     return fileName[beginningIndex : endIndex]
+
+def president_first_name(secondName: str):
+    presidents = {"Chirac": "Jacques", "Giscard d'Estaing": "Valéry", "Mitterrand": "François", "Macron": "Emmanuel", "Sarkozy": "Nicolas"}
+    if secondName in presidents.keys():
+        return presidents[secondName]
+    print("Ce président n'est pas enregistré.")
+    return None
