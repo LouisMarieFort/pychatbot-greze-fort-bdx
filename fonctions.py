@@ -32,7 +32,3 @@ def create_cleaned_file(fileName: str):
     cleanedFile = open("./cleaned/" + fileName, 'w', encoding='UTF-8')
     for line in file.readlines():
         cleanedFile.write(line.lower())
-
-
-
-print(create_cleaned_file("Nomination_Chirac1.txt"))
