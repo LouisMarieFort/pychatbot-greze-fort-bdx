@@ -44,3 +44,17 @@ def remove_file_punctuation(fileName: str):
     file = open("./cleaned/" + fileName, 'w', encoding = 'UTF-8')
     file.write(text)
     file.close()
+
+def term_frequency(text: str) :
+    dictionary = dict()
+    endIndex = len(text)
+    while endIndex > 0:
+        beginningIndex = endIndex
+        while text[beginningIndex - 1] != ' ' and beginningIndex > 0:
+            beginningIndex -= 1
+        if text[beginningIndex : endIndex] not in dictionary.keys():
+            dictionary[text[beginningIndex : endIndex]] = 1
+        else:
+            dictionary[text[beginningIndex : endIndex]] += 1
+        endIndex = beginningIndex - 1
+    return dictionary
