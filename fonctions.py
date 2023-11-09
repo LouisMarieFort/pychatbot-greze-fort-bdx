@@ -1,3 +1,7 @@
+from math import *
+from re import sub
+from os import listdir
+
 def authors_name(fileName: str):
     """
     Return the name of the text's author
@@ -26,22 +30,27 @@ def president_list_display():
     return None
 
 def create_cleaned_file(fileName: str):
-    file = open("./speeches/" + fileName, 'r', encoding = 'UTF-8')
-    cleanedFile = open("./cleaned/" + fileName, 'w', encoding = 'UTF-8')
+    file = open("./speeches/" + fileName, 'r', encoding = "UTF-8")
+    cleanedFile = open("./cleaned/" + fileName, 'w', encoding = "UTF-8")
     for line in file.readlines():
         cleanedFile.write(line.lower())
+    file.close()
+    cleanedFile.close()    
 
 def remove_file_punctuation(fileName: str):
-    punctuation = {'.', '\n', ',', '?', ';'}
-    specificPunctuation = {'-', "'"}
-    file = open("./cleaned/" + fileName, 'r', encoding = 'UTF-8')
+    punctuation = {'.', '\n', '!', ',', '?', ';'}
+    specificPunctuation = {'- ', "'"}
+    file = open("./cleaned/" + fileName, 'r', encoding = "UTF-8")
     text = file.read()
     for punctuationMark in punctuation:
         text = text.replace(punctuationMark, '')
     for punctuationMark in specificPunctuation:
-        text = text.replace(punctuationMark, ' ')
+       text = text.replace(punctuationMark, ' ')
+    text = sub(' +', ' ', text)
+    if text[-1] == ' ':
+        text = text[:-1]
     file.close()
-    file = open("./cleaned/" + fileName, 'w', encoding = 'UTF-8')
+    file = open("./cleaned/" + fileName, 'w', encoding = "UTF-8")
     file.write(text)
     file.close()
 
@@ -58,3 +67,7 @@ def term_frequency(text: str) :
             dictionary[text[beginningIndex : endIndex]] += 1
         endIndex = beginningIndex - 1
     return dictionary
+
+
+
+#def inverse_document_frequency(directory = "./cleaned/"):
