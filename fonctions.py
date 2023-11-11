@@ -1,4 +1,4 @@
-from math import *
+from math import log
 from re import sub
 from os import listdir
 
@@ -38,14 +38,14 @@ def create_cleaned_file(fileName: str):
     cleanedFile.close()    
 
 def remove_file_punctuation(fileName: str):
-    punctuation = {'.', '\n', '!', ',', '?', ';'}
-    specificPunctuation = {'- ', "'"}
+    punctuation = {'\n', '!', ',', '?', ';'}
+    specificPunctuation = {'-', "'", '.', ',\n'}
     file = open("./cleaned/" + fileName, 'r', encoding = "UTF-8")
     text = file.read()
+    for punctuationMark in specificPunctuation:
+       text = text.replace(punctuationMark, ' ')    
     for punctuationMark in punctuation:
         text = text.replace(punctuationMark, '')
-    for punctuationMark in specificPunctuation:
-       text = text.replace(punctuationMark, ' ')
     text = sub(' +', ' ', text)
     if text[-1] == ' ':
         text = text[:-1]
@@ -68,6 +68,33 @@ def term_frequency(text: str) :
         endIndex = beginningIndex - 1
     return dictionary
 
+def inverse_document_frequency(directory = "./cleaned/"):
+    dictionary = dict()
+    for fileName in listdir(directory):
+        with open("./cleaned/" + fileName, 'r', encoding = "UTF-8") as currentFile:
+            fileTermFrequency = term_frequency(currentFile.read())
+            for word in fileTermFrequency:
+                if word in dictionary:
+                    dictionary[word] += 1
+                else:
+                    dictionary[word] = 1
+    for word in dictionary:
+        dictionary[word] = log(len(listdir(directory))/dictionary[word])
+    return dictionary
 
-
-#def inverse_document_frequency(directory = "./cleaned/"):
+def TFIDF_matrix(directory = "./cleaned/"):
+    matrix = []
+    filesNamesList = listdir(directory)
+    listOfTF = []                                                            #list of dictionaries
+    for fileName in filesNamesList:
+        with open(directory + fileName, 'r', encoding = "UTF-8") as file:
+            listOfTF.append(term_frequency(file.read()))
+    for wordAndITF in inverse_document_frequency(directory).items():
+        line = [wordAndITF[0]]
+        for column in range(len(filesNamesList)):
+            if wordAndITF[0] in listOfTF[column].keys():
+                line.append(wordAndITF[1] * listOfTF[column][wordAndITF[0]])
+            else:
+                line.append(0)
+        matrix.append(line)
+    return matrix
