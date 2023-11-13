@@ -90,11 +90,26 @@ def TFIDF_matrix(directory = "./cleaned/"):
         with open(directory + fileName, 'r', encoding = "UTF-8") as file:
             listOfTF.append(term_frequency(file.read()))
     for wordAndITF in inverse_document_frequency(directory).items():
-        line = [wordAndITF[0]]
+        row = [wordAndITF[0]]
         for column in range(len(filesNamesList)):
             if wordAndITF[0] in listOfTF[column].keys():
-                line.append(wordAndITF[1] * listOfTF[column][wordAndITF[0]])
+                row.append(wordAndITF[1] * listOfTF[column][wordAndITF[0]])
             else:
-                line.append(0)
-        matrix.append(line)
+                row.append(0)
+        matrix.append(row)
     return matrix
+
+def useless_words(directory = "./cleaned/"):
+    tfidfMatrix = TFIDF_matrix(directory)
+    uselessWords = []
+    numberOfTexts = len(tfidfMatrix[0])
+    for row in range(len(tfidfMatrix)):
+        isUseless = True
+        column = 1
+        while column < numberOfTexts and isUseless:
+            if tfidfMatrix[row][column] != 0:
+                isUseless = False
+            column += 1
+        if isUseless:
+            uselessWords.append(tfidfMatrix[row][0])
+    return uselessWords

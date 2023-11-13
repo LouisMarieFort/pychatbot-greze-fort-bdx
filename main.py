@@ -6,3 +6,4 @@ for file in listdir("./speeches/"):
     remove_file_punctuation(file)
 #print(inverse_document_frequency())
 print(TFIDF_matrix())
+print(useless_words())
