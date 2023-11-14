@@ -99,7 +99,7 @@ def TFIDF_matrix(directory = "./cleaned/"):
         matrix.append(row)
     return matrix
 
-def useless_words(directory = "./cleaned/"):
+def createUselessWordsList(directory = "./cleaned/"):
     tfidfMatrix = TFIDF_matrix(directory)
     uselessWords = []
     numberOfTexts = len(tfidfMatrix[0])
@@ -113,3 +113,15 @@ def useless_words(directory = "./cleaned/"):
         if isUseless:
             uselessWords.append(tfidfMatrix[row][0])
     return uselessWords
+
+def createHigherTfidfWordsList(directory = "./cleaned/"):
+    tfidfMatrix = TFIDF_matrix(directory)
+    higherTfidf = 0
+    wordsList = []
+    for row in range(len(tfidfMatrix)):
+        if max(tfidfMatrix[row][1:]) > higherTfidf:
+            higherTfidf = max(tfidfMatrix[row][1:])
+            wordsList = [tfidfMatrix[row][0]]
+        elif max(tfidfMatrix[row][1:]) == higherTfidf:
+            wordsList.append(tfidfMatrix[row][0])
+    return wordsList
