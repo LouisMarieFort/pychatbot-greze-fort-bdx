@@ -115,11 +115,13 @@ def useless_words(directory = "./cleaned/"):
     return uselessWords
 
 def most_repeated_word() :
-    liste = []
     for i in listdir("./cleaned/") :
         if authors_name(i) == "Chirac" :
-            list.append(max(term_frequency(authors_name(i)), key=term_frequency(authors_name(i)).get))
+            table = term_frequency(open("./cleaned/"+i,'r', encoding = "UTF-8").read())
+            mot = max(table, key=table.get)
+            print(mot)
     return max(liste)
+
 
 def createHigherTfidfWordsList(directory = "./cleaned/"):
     tfidfMatrix = TFIDF_matrix(directory)
