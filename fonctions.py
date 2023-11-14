@@ -120,3 +120,15 @@ def most_repeated_word() :
         if authors_name(i) == "Chirac" :
             list.append(max(term_frequency(authors_name(i)), key=term_frequency(authors_name(i)).get))
     return max(liste)
+
+def createHigherTfidfWordsList(directory = "./cleaned/"):
+    tfidfMatrix = TFIDF_matrix(directory)
+    higherTfidf = 0
+    wordsList = []
+    for row in range(len(tfidfMatrix)):
+        if max(tfidfMatrix[row][1:]) > higherTfidf:
+            higherTfidf = max(tfidfMatrix[row][1:])
+            wordsList = [tfidfMatrix[row][0]]
+        elif max(tfidfMatrix[row][1:]) == higherTfidf:
+            wordsList.append(tfidfMatrix[row][0])
+    return wordsList
