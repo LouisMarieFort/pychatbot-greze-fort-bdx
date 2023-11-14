@@ -114,7 +114,7 @@ def createUselessWordsList(directory = "./cleaned/"):
             uselessWords.append(tfidfMatrix[row][0])
     return uselessWords
 
-def most_repeated_word(authorsName = "Chirac", directory = "./cleaned/"):
+def mostRepeatedWords(authorsName = "Chirac", directory = "./cleaned/"):
     filesList = []
     totalText = ""
     for file in listdir(directory):
@@ -123,6 +123,13 @@ def most_repeated_word(authorsName = "Chirac", directory = "./cleaned/"):
     for fileName in filesList:
         with open(directory + fileName, 'r', encoding = "UTF-8") as currentFile:
             totalText += ' ' + currentFile.read()
+    totalTf = term_frequency(totalText)
+    maximalOccurenceNumber = max(totalTf.values())
+    repeatedWords = []
+    for word in totalTf:
+        if totalTf[word] == maximalOccurenceNumber :
+            repeatedWords.append(word)
+    return repeatedWords
 
 def createHigherTfidfWordsList(directory = "./cleaned/"):
     tfidfMatrix = TFIDF_matrix(directory)
