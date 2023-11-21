@@ -144,11 +144,26 @@ def createHigherTfidfWordsList(directory = "./cleaned/"):
     return wordsList
 
 def findAuthorsWhoMentioned(word: str, repertory = "./cleaned/"):
-    presidentsList = []
+    word = word.lower()
+    authorsWhoMentioned = dict()
     for fileName in listdir(repertory):
         nameOfTheAuthor = findAuthorsName(fileName)
-        if nameOfTheAuthor not in presidentsList:
-            currentFile = open(repertory + fileName, 'r', encoding = "UTF-8").read()
-            if word in term_frequency(currentFile).keys():
-                presidentsList.append(nameOfTheAuthor)
-    return presidentsList
+        currentFile = open(repertory + fileName, 'r', encoding = "UTF-8")
+        currentTF = term_frequency(currentFile.read())
+        currentFile.close()
+        if word in currentTF.keys():
+            if nameOfTheAuthor not in authorsWhoMentioned.keys():
+                authorsWhoMentioned[nameOfTheAuthor] = currentTF[word]
+            else:
+                authorsWhoMentioned[nameOfTheAuthor] += currentTF[word]
+    return authorsWhoMentioned
+
+def findAuthorsWhoMostRepeated(word: str, repertory = "./cleaned/"):
+    word = word.lower()
+    authorsWhoMentioned = findAuthorsWhoMentioned(word, repertory)
+    maximalOccurences = max(authorsWhoMentioned.values())
+    authorsWhoMostRepeated = []
+    for author in authorsWhoMentioned.keys():
+        if authorsWhoMentioned[author] == maximalOccurences:
+            authorsWhoMostRepeated.append(author)
+    return authorsWhoMostRepeated

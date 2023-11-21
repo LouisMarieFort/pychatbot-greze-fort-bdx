@@ -9,4 +9,5 @@ for file in listdir("./speeches/"):
 #print(createUselessWordsList())
 #print(createHigherTfidfWordsList())
 #print(mostRepeatedWords())
-print(findAuthorsWhoMentioned("nation"))
+print(list(findAuthorsWhoMentioned("Nation").keys()))
+print(findAuthorsWhoMostRepeated("Nation"))
