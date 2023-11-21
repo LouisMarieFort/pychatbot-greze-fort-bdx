@@ -2,14 +2,13 @@ from math import log
 from re import sub
 from os import listdir
 
-def authors_name(fileName: str):
+def findAuthorsName(fileName: str):
     """
     Return the name of the text's author
     
     fileName : the name of the file, using this format : TextTitle_[author's name][number].txt
     """
-    name = ""
-    endIndex = len(fileName) - 5                                                       # the index of the last digit of [number]
+    endIndex = len(fileName) - 4                                                      # the index of the last digit of [number]
     while ord(fileName[endIndex - 1]) < 58 and ord(fileName[endIndex - 1]) > 47:
         endIndex -= 1
     beginningIndex = endIndex
@@ -24,9 +23,10 @@ def president_first_name(lastName: str):
     print("Ce président n'est pas enregistré.")
     return None
 
-def president_list_display():
+def presidentListDisplay():
     """Display the list of the presidents' name. Return None"""
-    print("Jacques Chirac", "Valéry Giscard d'Estaing", "François Mitterrand", "Emmanuel Macron", "Nicolas Sarkozy")
+    listOfPresidentsNames = ["Jacques Chirac", "Valéry Giscard d'Estaing", "François Mitterrand", "Emmanuel Macron", "Nicolas Sarkozy"]
+    print(listOfPresidentsNames)
     return None
 
 def create_cleaned_file(fileName: str):
@@ -118,7 +118,7 @@ def mostRepeatedWords(authorsName = "Chirac", directory = "./cleaned/"):
     filesList = []
     totalText = ""
     for file in listdir(directory):
-        if authors_name(file) == authorsName:
+        if findAuthorsName(file) == authorsName:
             filesList.append(file)
     for fileName in filesList:
         with open(directory + fileName, 'r', encoding = "UTF-8") as currentFile:
@@ -142,3 +142,28 @@ def createHigherTfidfWordsList(directory = "./cleaned/"):
         elif max(tfidfMatrix[row][1:]) == higherTfidf:
             wordsList.append(tfidfMatrix[row][0])
     return wordsList
+
+def findAuthorsWhoMentioned(word: str, repertory = "./cleaned/"):
+    word = word.lower()
+    authorsWhoMentioned = dict()
+    for fileName in listdir(repertory):
+        nameOfTheAuthor = findAuthorsName(fileName)
+        currentFile = open(repertory + fileName, 'r', encoding = "UTF-8")
+        currentTF = term_frequency(currentFile.read())
+        currentFile.close()
+        if word in currentTF.keys():
+            if nameOfTheAuthor not in authorsWhoMentioned.keys():
+                authorsWhoMentioned[nameOfTheAuthor] = currentTF[word]
+            else:
+                authorsWhoMentioned[nameOfTheAuthor] += currentTF[word]
+    return authorsWhoMentioned
+
+def findAuthorsWhoMostRepeated(word: str, repertory = "./cleaned/"):
+    word = word.lower()
+    authorsWhoMentioned = findAuthorsWhoMentioned(word, repertory)
+    maximalOccurences = max(authorsWhoMentioned.values())
+    authorsWhoMostRepeated = []
+    for author in authorsWhoMentioned.keys():
+        if authorsWhoMentioned[author] == maximalOccurences:
+            authorsWhoMostRepeated.append(author)
+    return authorsWhoMostRepeated

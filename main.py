@@ -8,4 +8,6 @@ for file in listdir("./speeches/"):
 #print(TFIDF_matrix())
 #print(createUselessWordsList())
 #print(createHigherTfidfWordsList())
-print(mostRepeatedWords())
+#print(mostRepeatedWords())
+print(list(findAuthorsWhoMentioned("Nation").keys()))
+print(findAuthorsWhoMostRepeated("Nation"))
