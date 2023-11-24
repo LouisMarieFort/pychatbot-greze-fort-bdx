@@ -40,13 +40,18 @@ def createCleanedFile(fileName: str):
     Return None
     """
     file = open("./speeches/" + fileName, 'r', encoding = "UTF-8")
-    cleanedFile = open("./speeches/" + fileName, 'w', encoding = "UTF-8")
+    cleanedFile = open("./cleaned/" + fileName, 'w', encoding = "UTF-8")
     for line in file.readlines():
         cleanedFile.write(line.lower())
     file.close()
     cleanedFile.close()    
 
 def remove_file_punctuation(fileName: str):
+    """ Remove the punctuation in the text file which is in the folder cleaned
+    Argument :
+        fileName : the name of the file that we want to clean
+    Return None
+    """
     punctuation = {'\n', '!', ',', '?', ';'}
     specificPunctuation = {'-', "'", '.', ',\n'}
     file = open("./cleaned/" + fileName, 'r', encoding = "UTF-8")
@@ -63,7 +68,14 @@ def remove_file_punctuation(fileName: str):
     file.write(text)
     file.close()
 
-def term_frequency(text: str) :
+def term_frequency(text: str):
+    """ Create a dictionary of the term frequency of each word
+    Argument :
+        text : the text of which we want the term frequency
+               it has to be "clean" : in lowercase characters with no punctuation
+    Return :
+        dictionary : dictionary associating each word with its number of occurrences in the text
+    """
     dictionary = dict()
     endIndex = len(text)
     while endIndex > 0:
@@ -78,6 +90,12 @@ def term_frequency(text: str) :
     return dictionary
 
 def inverse_document_frequency(directory = "./cleaned/"):
+    """ Create a dictionary of the inverse document frequency of each words in the texts
+    Argument :
+        directory (optional) : the directory that contains the corpus of documents
+    Return :
+        dictionary : dictionary associating each word with its IDF score
+    """
     dictionary = dict()
     for fileName in listdir(directory):
         with open("./cleaned/" + fileName, 'r', encoding = "UTF-8") as currentFile:
@@ -152,12 +170,12 @@ def createHigherTfidfWordsList(directory = "./cleaned/"):
             wordsList.append(tfidfMatrix[row][0])
     return wordsList
 
-def findAuthorsWhoMentioned(word: str, repertory = "./cleaned/"):
+def findAuthorsWhoMentioned(word: str, directory = "./cleaned/"):
     word = word.lower() 
     authorsWhoMentioned = dict()
-    for fileName in listdir(repertory):
+    for fileName in listdir(directory):
         nameOfTheAuthor = findAuthorsName(fileName)
-        currentFile = open(repertory + fileName, 'r', encoding = "UTF-8")
+        currentFile = open(directory + fileName, 'r', encoding = "UTF-8")
         currentTF = term_frequency(currentFile.read())
         currentFile.close()
         if word in currentTF.keys():
@@ -167,9 +185,9 @@ def findAuthorsWhoMentioned(word: str, repertory = "./cleaned/"):
                 authorsWhoMentioned[nameOfTheAuthor] += currentTF[word]
     return authorsWhoMentioned
 
-def findAuthorsWhoMostRepeated(word: str, repertory = "./cleaned/"):
+def findAuthorsWhoMostRepeated(word: str, directory = "./cleaned/"):
     word = word.lower()
-    authorsWhoMentioned = findAuthorsWhoMentioned(word, repertory)
+    authorsWhoMentioned = findAuthorsWhoMentioned(word, directory)
     maximalOccurences = max(authorsWhoMentioned.values())
     authorsWhoMostRepeated = []
     for author in authorsWhoMentioned.keys():
@@ -177,7 +195,7 @@ def findAuthorsWhoMostRepeated(word: str, repertory = "./cleaned/"):
             authorsWhoMostRepeated.append(author)
     return authorsWhoMostRepeated
 
-def firstToMention(word) :
+def findFirstToMention(word) :
     listOfMentioners = findAuthorsWhoMentioned(word).keys()
     if listOfMentioners == [] :
         return "Aucun préseident n'a parlé de",word,"Dans ses discours."
@@ -193,3 +211,33 @@ def firstToMention(word) :
         return "Hollande"
     elif "Macron" in listOfMentioners :
         return "Macron"
+    
+def createWhoseTextIsIt(directory = "./cleaned/"):
+    textIndex = {}
+    filesOfTheFolder = listdir(directory)
+    for i in range(len(filesOfTheFolder)):
+        authorsName = findAuthorsName(filesOfTheFolder[i])
+        if authorsName in textIndex.keys():
+            textIndex[authorsName].append(i + 1)
+        else:
+            textIndex[authorsName] = [i + 1]
+    return textIndex
+
+def allAuthorsSaid(directory = "./cleaned/"):
+    tfidfMatrix = TFIDF_matrix(directory)
+    whoseTestItIs = createWhoseTextIsIt(directory)
+    trashWords = createUselessWordsList()
+    result = []
+    for row in tfidfMatrix:
+        saidByAll = True
+        authorsList = list(whoseTestItIs.keys())
+        authorIndex = 0
+        while saidByAll and authorIndex < len(authorsList):
+            saidByAll = False
+            for i in whoseTestItIs[authorsList[authorIndex]]:
+                if row[i] != 0:
+                    saidByAll = True
+            authorIndex += 1
+        if saidByAll and row[0] not in trashWords:
+            result.append(row[0])                                            # le mot étudié (qui est à l'indice 0 de la ligne)
+    return result
