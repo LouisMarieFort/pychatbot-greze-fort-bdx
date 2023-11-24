@@ -1,10 +1,9 @@
-from math import log
+from math import log10
 from re import sub
 from os import listdir
 
 def findAuthorsName(fileName: str):
-    """
-    Return the name of the text's author
+    """ Return the name of the text's author
     
     fileName : the name of the file, using this format : TextTitle_[author's name][number].txt
     """
@@ -16,22 +15,32 @@ def findAuthorsName(fileName: str):
         beginningIndex -= 1
     return fileName[beginningIndex : endIndex]
 
-def president_first_name(lastName: str):
-    presidents = {"Chirac": "Jacques", "Giscard d'Estaing": "Valéry", "Mitterrand": "François", "Macron": "Emmanuel", "Sarkozy": "Nicolas"}
+def findPresidentFirstName(lastName: str):
+    """ Associates the last name of an author to his first name
+    Argument :
+        lastName : the last name of the author
+    Return the last name of the author (str)
+    """
+    presidents = {"Chirac": "Jacques", "Giscard dEstaing": "Valéry", "Mitterrand": "François", "Macron": "Emmanuel", "Sarkozy": "Nicolas"}
     if lastName in presidents.keys():
         return presidents[lastName]
     print("Ce président n'est pas enregistré.")
     return None
 
 def presidentListDisplay():
-    """Display the list of the presidents' name. Return None"""
-    listOfPresidentsNames = ["Jacques Chirac", "Valéry Giscard d'Estaing", "François Mitterrand", "Emmanuel Macron", "Nicolas Sarkozy"]
+    """ Display the list of the presidents' name. Return None"""
+    listOfPresidentsNames = ["Jacques Chirac", "Valéry Giscard dEstaing", "François Mitterrand", "Emmanuel Macron", "Nicolas Sarkozy"]
     print(listOfPresidentsNames)
     return None
 
-def create_cleaned_file(fileName: str):
+def createCleanedFile(fileName: str):
+    """ Duplicate the file in the folder cleaned
+    Argument :
+        fileName : the name of the file that we want to clean
+    Return None
+    """
     file = open("./speeches/" + fileName, 'r', encoding = "UTF-8")
-    cleanedFile = open("./cleaned/" + fileName, 'w', encoding = "UTF-8")
+    cleanedFile = open("./speeches/" + fileName, 'w', encoding = "UTF-8")
     for line in file.readlines():
         cleanedFile.write(line.lower())
     file.close()
@@ -79,7 +88,7 @@ def inverse_document_frequency(directory = "./cleaned/"):
                 else:
                     dictionary[word] = 1
     for word in dictionary:
-        dictionary[word] = log(len(listdir(directory))/dictionary[word])
+        dictionary[word] = log10(len(listdir(directory))/dictionary[word])
     return dictionary
 
 def TFIDF_matrix(directory = "./cleaned/"):
@@ -144,7 +153,7 @@ def createHigherTfidfWordsList(directory = "./cleaned/"):
     return wordsList
 
 def findAuthorsWhoMentioned(word: str, repertory = "./cleaned/"):
-    word = word.lower()
+    word = word.lower() 
     authorsWhoMentioned = dict()
     for fileName in listdir(repertory):
         nameOfTheAuthor = findAuthorsName(fileName)
@@ -167,3 +176,20 @@ def findAuthorsWhoMostRepeated(word: str, repertory = "./cleaned/"):
         if authorsWhoMentioned[author] == maximalOccurences:
             authorsWhoMostRepeated.append(author)
     return authorsWhoMostRepeated
+
+def firstToMention(word) :
+    listOfMentioners = findAuthorsWhoMentioned(word).keys()
+    if listOfMentioners == [] :
+        return "Aucun préseident n'a parlé de",word,"Dans ses discours."
+    elif "Giscard dEstaing" in listOfMentioners :
+        return "Giscard dEstaing"
+    elif "Mitterand" in listOfMentioners :
+        return "Mitterand"
+    elif "Chirac" in listOfMentioners :
+        return "Chirac"
+    elif "Sarkozy" in listOfMentioners :
+        return "Sarkozy"
+    elif "Hollande" in listOfMentioners :
+        return "Hollande"
+    elif "Macron" in listOfMentioners :
+        return "Macron"
