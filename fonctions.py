@@ -1,4 +1,4 @@
-from math import log
+from math import log10
 from re import sub
 from os import listdir
 
@@ -88,7 +88,7 @@ def inverse_document_frequency(directory = "./cleaned/"):
                 else:
                     dictionary[word] = 1
     for word in dictionary:
-        dictionary[word] = log(len(listdir(directory))/dictionary[word])
+        dictionary[word] = log10(len(listdir(directory))/dictionary[word])
     return dictionary
 
 def TFIDF_matrix(directory = "./cleaned/"):
@@ -176,3 +176,20 @@ def findAuthorsWhoMostRepeated(word: str, repertory = "./cleaned/"):
         if authorsWhoMentioned[author] == maximalOccurences:
             authorsWhoMostRepeated.append(author)
     return authorsWhoMostRepeated
+
+def firstToMention(word) :
+    listOfMentioners = findAuthorsWhoMentioned(word).keys()
+    if listOfMentioners == [] :
+        return "Aucun préseident n'a parlé de",word,"Dans ses discours."
+    elif "Giscard dEstaing" in listOfMentioners :
+        return "Giscard dEstaing"
+    elif "Mitterand" in listOfMentioners :
+        return "Mitterand"
+    elif "Chirac" in listOfMentioners :
+        return "Chirac"
+    elif "Sarkozy" in listOfMentioners :
+        return "Sarkozy"
+    elif "Hollande" in listOfMentioners :
+        return "Hollande"
+    elif "Macron" in listOfMentioners :
+        return "Macron"
