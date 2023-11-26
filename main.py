@@ -8,13 +8,15 @@ while requestedMenu < 1 or requestedMenu > 3:
           3 : Les deux à la suite ")
     requestedMenu = int(input())
 
+# Traitement des fichiers du dossier speeches
+for fileName in listdir("./speeches/"):
+        createCleanedFile(fileName)
+        removeFilePunctuation(fileName)
+
 continueCondition = True
 numberOfFunctionalities1 = 7
 requestedFunctionality = -1
 while requestedMenu != 2 and continueCondition == 1:
-    for fileName in listdir("./speeches/"):
-        createCleanedFile(fileName)
-        removeFilePunctuation(fileName)
     print("\nSélectionnez le nombre correspondant à votre requête dans la console Python : \n\
             1 : Afficher la liste des mots les moins importants du corpus de documents \n\
             2 : Afficher le(s) mot(s) ayant le score TF-IDF le plus élevé \n\
