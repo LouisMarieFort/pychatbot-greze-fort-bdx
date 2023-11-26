@@ -1,6 +1,8 @@
 # My first ChatBot
+
 >Réalisé par Adam Greze et Louis-Marie Fort
-Lien GitHub : https://github.com/LouisMarieFort/pychatbot-greze-fort-bdx<
+
+Lien GitHub : https://github.com/LouisMarieFort/pychatbot-greze-fort-bdx
 
 
 
