@@ -28,7 +28,7 @@ def findAuthorsFirstName(lastName: str):
     return None
 
 def authorsListDisplay(directory = "./speeches/"):
-    """ Display the list of the presidents' name. Return None"""
+    """ Display the list of the authors' names. Return None"""
     listOfPresidentsNames = []
     for fileName in listdir(directory):
         fullName =  findAuthorsFirstName(findAuthorsName(fileName)) + ' ' + findAuthorsName(fileName)
@@ -96,7 +96,7 @@ def termFrequency(text: str):
 def inverseDocumentFrequency(directory = "./cleaned/"):
     """ Create a dictionary of the inverse document frequency of each words in the texts
     Argument :
-        directory (optional) : the directory that contains the corpus of documents
+        directory (optional) : the directory that contains the corpus of cleaned documents
     Return :
         dictionary : dictionary associating each word with its IDF score
     """
@@ -114,6 +114,14 @@ def inverseDocumentFrequency(directory = "./cleaned/"):
     return dictionary
 
 def createTfidfMatrix(directory = "./cleaned/"):
+    """ Create a matrix of the TF-IDF of the corpus of documents
+        Each row represents the TF_IDF of the word that is at index 0
+        Then, each column corresponds to a different text
+    Argument :
+        directory (optional) : the directory that contains the corpus of cleaned documents
+    Return :
+        matrix : the TF-IDF matrix
+    """
     matrix = []
     filesNamesList = listdir(directory)
     listOfTF = []                                                            #list of dictionaries
@@ -131,6 +139,12 @@ def createTfidfMatrix(directory = "./cleaned/"):
     return matrix
 
 def createUselessWordsList(directory = "./cleaned/"):
+    """ Create a list that contains all the words whose TF-IDF score is zero for each text
+    Argument :
+        directory (optional) : the directory that contains the corpus of cleaned documents
+    Return :
+        uselessWords : the list of all the useless words
+    """
     tfidfMatrix = createTfidfMatrix(directory)
     uselessWords = []
     numberOfTexts = len(tfidfMatrix[0])
@@ -146,6 +160,12 @@ def createUselessWordsList(directory = "./cleaned/"):
     return uselessWords
 
 def mostRepeatedWords(authorsName = "Chirac", directory = "./cleaned/"):
+    """ Create a list of the words an author has repeated the most
+    Argument :
+        authorsName : the name of the author to study
+    Return :
+        repeatedWords : the list containing the most repeated words
+    """
     filesList = []
     totalText = ""
     for file in listdir(directory):
@@ -163,6 +183,12 @@ def mostRepeatedWords(authorsName = "Chirac", directory = "./cleaned/"):
     return repeatedWords
 
 def createHigherTfidfWordsList(directory = "./cleaned/"):
+    """ Create the list of the words that have the higher TF-IDF score
+    Argument :
+        directory (optional) : the directory that contains the corpus of cleaned documents
+    Return :
+        wordsList : the list of the words that have the higher TF-IDF score
+    """
     tfidfMatrix = createTfidfMatrix(directory)
     higherTfidf = 0
     wordsList = []
@@ -175,6 +201,12 @@ def createHigherTfidfWordsList(directory = "./cleaned/"):
     return wordsList
 
 def findAuthorsWhoMentioned(word: str, directory = "./cleaned/"):
+    """ Create a list of the authors who said a specific word
+    Argument :
+        word : the word that we want to study
+    Return :
+        authorsWhoMentioned : the list of the authors' last names
+    """
     word = word.lower() 
     authorsWhoMentioned = dict()
     for fileName in listdir(directory):
@@ -190,6 +222,12 @@ def findAuthorsWhoMentioned(word: str, directory = "./cleaned/"):
     return authorsWhoMentioned
 
 def findAuthorsWhoMostRepeated(word: str, directory = "./cleaned/"):
+    """ Create a list of the authors who have said a specific word the most
+    Argument :
+        word : the word that we want to study
+    Return :
+        authorsWhoMentioned : the list of the authors' last names
+    """
     word = word.lower()
     authorsWhoMentioned = findAuthorsWhoMentioned(word, directory)
     maximalOccurences = max(authorsWhoMentioned.values())
@@ -199,7 +237,14 @@ def findAuthorsWhoMostRepeated(word: str, directory = "./cleaned/"):
             authorsWhoMostRepeated.append(author)
     return authorsWhoMostRepeated
 
-def findFirstToMention(word) :
+def findFirstToMention(word : str) :
+    """ Find the first author (president) who said a specific word
+        This function has to be modified to accept more authors
+    Arguments :
+        word: the word that we want to study
+    Return :
+        The author's last name
+    """
     listOfMentioners = findAuthorsWhoMentioned(word).keys()
     if listOfMentioners == [] :
         return "Aucun préseident n'a parlé de",word,"Dans ses discours."
@@ -217,6 +262,14 @@ def findFirstToMention(word) :
         return "Macron"
     
 def createWhoseTextIsIt(directory = "./cleaned/"):
+    """ Creates a dictionary used to interpret the TF-IDF matrix
+        Associates with each author the indexes corresponding to his texts
+    Argument :
+        directory (optional) : the directory that contains the corpus of cleaned documents
+    Return :
+        textIndex : keys : the authors' last names
+                    values : the index of the corresponding columns in the TF-IDF matrix 
+    """
     textIndex = {}
     filesOfTheFolder = listdir(directory)
     for i in range(len(filesOfTheFolder)):
@@ -228,6 +281,12 @@ def createWhoseTextIsIt(directory = "./cleaned/"):
     return textIndex
 
 def allAuthorsSaid(directory = "./cleaned/"):
+    """ Creates a list of all words that all authors said and that are not useless words
+    Arguments :
+        directory (optional) : the directory that contains the corpus of cleaned documents
+    Return :
+        result : the list of all words that all authors said and that are not useless words
+    """
     tfidfMatrix = createTfidfMatrix(directory)
     whoseTestItIs = createWhoseTextIsIt(directory)
     trashWords = createUselessWordsList()
