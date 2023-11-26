@@ -5,6 +5,7 @@ def checkAuthorsLastNameInput(userInput : str, directory = "./speeches/"):
     """ Check a string input from the user for an author's last name
     Argument : 
         userInput : the name that we want to check
+        directory (optional) : the directory where the documents are
     Return :
         True if the name is valid
         False if the name is not valid
@@ -25,6 +26,20 @@ def checkWordExistence(userInput : str):
     idfMatrix = inverseDocumentFrequency()
     for word in idfMatrix.keys():
         if userInput == word:
+            return True
+    return False
+
+def checkTxtFileExistence(userInput : str, directory = "./speeches/"):
+    """ Check a string input from the user for txt file name
+    Argument : 
+        userInput : the file name that we want to check
+        directory (optional) : the directory where the documents are
+    Return :
+        True if the word is valid
+        False if the word is not valid
+    """
+    for fileName in listdir(directory):
+        if fileName == userInput:
             return True
     return False
 

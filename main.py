@@ -27,7 +27,7 @@ while requestedMenu != 2 and continueCondition == 1:
             6 : Afficher le(s) premier(s) président(s) à parler d'un certain mot \n\
             7 : Afficher les mots que tous les auteurs ont répété et qui ne sont pas 'moins importants' \n ")
     requestedFunctionality = int(input())
-    while requestedFunctionality < 1 and requestedFunctionality > numberOfFunctionalities1:
+    while requestedFunctionality < 1 and requestedFunctionality > numberOfFunctionalities1:                      # Saisie sécurisée
         print("\nSélectionnez le nombre correspondant à votre requête dans la console Python : \n\
                 1 : Afficher la liste des mots les moins importants du corpus de documents \n\
                 2 : Afficher le(s) mot(s) ayant le score TF-IDF le plus élevé \n\
@@ -43,25 +43,25 @@ while requestedMenu != 2 and continueCondition == 1:
         print(createHigherTfidfWordsList())
     elif requestedFunctionality == 3:
         requestedAuthor = str(input("\nSélectionnez le nom de l'auteur à étudier : "))
-        while not checkAuthorsLastNameInput(requestedAuthor):
+        while not checkAuthorsLastNameInput(requestedAuthor):                                                    # Saisie sécurisée
             print("Cet auteur n'est pas reconnu, veuillez sélectionner un auteur dont au moins un texte est présent dans le dossier 'speeches'")
             requestedAuthor = str(input("\nSélectionnez le nom de l'auteur à étudier : "))
         print(mostRepeatedWords(requestedAuthor))
     elif requestedFunctionality == 4:
         requestedWord = str(input("\nSélectionnez le mot à étudier : "))
-        while not checkWordExistence(requestedWord):
+        while not checkWordExistence(requestedWord):                                                             # Saisie sécurisée
             print("Ce mot n'apparait pas dans les documents fournis, veuillez en sélectionner un autre.")
             requestedWord = str(input("\nSélectionnez le mot à étudier : "))
         print(list(findAuthorsWhoMentioned(requestedWord).keys()))
     elif requestedFunctionality == 5:
         requestedWord = str(input("\nSélectionnez le mot à étudier : "))
-        while not checkWordExistence(requestedWord):
+        while not checkWordExistence(requestedWord):                                                             # Saisie sécurisée
             print("Ce mot n'apparait pas dans les documents fournis, veuillez en sélectionner un autre.")
             requestedWord = str(input("\nSélectionnez le mot à étudier : "))
         print(findAuthorsWhoMostRepeated(requestedWord))
     elif requestedFunctionality == 6:
         requestedWord = str(input("\nSélectionnez le mot à étudier : "))
-        while not checkWordExistence(requestedWord):
+        while not checkWordExistence(requestedWord):                                                             # Saisie sécurisée
             print("Ce mot n'apparait pas dans les documents fournis, veuillez en sélectionner un autre.")
             requestedWord = str(input("\nSélectionnez le mot à étudier : "))
         print(findFirstToMention(requestedWord))
@@ -97,7 +97,10 @@ while requestedMenu != 1 and continueCondition == 1:
         requestedFunctionality = int(input())
     if requestedFunctionality == 1:
         requestedFileName = str(input("\nSélectionner le nom du fichier texte (avec l'extension .txt)\n"))
-        #checkFileNameInput()
+        while not checkTxtFileExistence(requestedFileName):                                                  # Saisie sécurisée
+            print("Ce fichier n'est pas répertorié dans le dossier speeches. \n\
+                  Veuillez vérifier la syntaxe ou sélectionner un fichier existant")
+            requestedFileName = str(input("\nSélectionner le nom du fichier texte (avec l'extension .txt)\n"))
         print(findAuthorsName(requestedFileName))
     elif requestedFunctionality == 2:
         requestedName = str(input("Sélectionner le nom de famille d'un autheur : "))
@@ -115,12 +118,15 @@ while requestedMenu != 1 and continueCondition == 1:
             removeFilePunctuation(fileName)
     elif requestedFunctionality == 6:
         requestedFileName = str(input("\nSélectionner le nom du fichier texte (avec l'extension .txt)\n"))
-        #checkFileNameInput()
+        while not checkTxtFileExistence(requestedFileName):                                                  # Saisie sécurisée
+            print("Ce fichier n'est pas répertorié dans le dossier speeches. \n\
+                  Veuillez vérifier la syntaxe ou sélectionner un fichier existant")
+            requestedFileName = str(input("\nSélectionner le nom du fichier texte (avec l'extension .txt)\n"))
         print(termFrequency(open("./cleaned/" + requestedFileName, 'r', encoding = "UTF-8").read()))
     elif requestedFunctionality == 7:
         print(inverseDocumentFrequency())
     elif requestedFunctionality == 8:
         print(createTfidfMatrix())
     continueCondition = int(input('\nVoulez-vous poursuivre sur ce menu ? (tapez 1 pour continuer ou 0 pour passer à la suite)\n'))
-    while continueCondition < 0 or continueCondition > 1:
+    while continueCondition < 0 or continueCondition > 1:                                                    # Saisie sécurisée
         continueCondition = int(input('\nVoulez-vous poursuivre sur ce menu ? (tapez 1 pour continuer ou 0 pour terminer)\n'))
