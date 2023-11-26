@@ -1,4 +1,5 @@
 from fonctions import *
+from checkFunctions import *
 
 requestedMenu = -1
 while requestedMenu < 1 or requestedMenu > 3:
@@ -42,19 +43,27 @@ while requestedMenu != 2 and continueCondition == 1:
         print(createHigherTfidfWordsList())
     elif requestedFunctionality == 3:
         requestedAuthor = str(input("\nSélectionnez le nom de l'auteur à étudier : "))
-        #checkAuthorsNameInput()
+        while not checkAuthorsLastNameInput(requestedAuthor):
+            print("Cet auteur n'est pas reconnu, veuillez sélectionner un auteur dont au moins un texte est présent dans le dossier 'speeches'")
+            requestedAuthor = str(input("\nSélectionnez le nom de l'auteur à étudier : "))
         print(mostRepeatedWords(requestedAuthor))
     elif requestedFunctionality == 4:
         requestedWord = str(input("\nSélectionnez le mot à étudier : "))
-        #checkWordExistence()
+        while not checkWordExistence(requestedWord):
+            print("Ce mot n'apparait pas dans les documents fournis, veuillez en sélectionner un autre.")
+            requestedWord = str(input("\nSélectionnez le mot à étudier : "))
         print(list(findAuthorsWhoMentioned(requestedWord).keys()))
     elif requestedFunctionality == 5:
         requestedWord = str(input("\nSélectionnez le mot à étudier : "))
-        #checkWordExistence()
+        while not checkWordExistence(requestedWord):
+            print("Ce mot n'apparait pas dans les documents fournis, veuillez en sélectionner un autre.")
+            requestedWord = str(input("\nSélectionnez le mot à étudier : "))
         print(findAuthorsWhoMostRepeated(requestedWord))
     elif requestedFunctionality == 6:
         requestedWord = str(input("\nSélectionnez le mot à étudier : "))
-        #checkWordExistence()
+        while not checkWordExistence(requestedWord):
+            print("Ce mot n'apparait pas dans les documents fournis, veuillez en sélectionner un autre.")
+            requestedWord = str(input("\nSélectionnez le mot à étudier : "))
         print(findFirstToMention(requestedWord))
     elif requestedFunctionality == 7:
         print(allAuthorsSaid())
@@ -92,7 +101,9 @@ while requestedMenu != 1 and continueCondition == 1:
         print(findAuthorsName(requestedFileName))
     elif requestedFunctionality == 2:
         requestedName = str(input("Sélectionner le nom de famille d'un autheur : "))
-        #checkAuthorsLastName()
+        while not checkAuthorsLastNameInput(requestedName):
+            print("Cet auteur n'est pas reconnu, veuillez sélectionner un auteur dont au moins un texte est présent dans le dossier 'speeches'")
+            requestedName = str(input("\nSélectionnez le nom de l'auteur à étudier : "))
         print(findAuthorsFirstName(requestedName))
     elif requestedFunctionality == 3:
         authorsListDisplay()
