@@ -2,7 +2,7 @@ from math import log10
 from re import sub
 from os import listdir
 
-def findAuthorsName(fileName: str):
+def findAuthorsName(fileName: str) -> str:
     """ Return the name of the text's author
     
     fileName : the name of the file, using this format : TextTitle_[author's name][number].txt
@@ -15,7 +15,7 @@ def findAuthorsName(fileName: str):
         beginningIndex -= 1
     return str(fileName[beginningIndex : endIndex])
 
-def findAuthorsFirstName(lastName: str):
+def findAuthorsFirstName(lastName: str) -> str: 
     """ Associates the last name of an author to his first name
     Argument :
         lastName : the last name of the author
@@ -25,9 +25,8 @@ def findAuthorsFirstName(lastName: str):
     if lastName in presidents.keys():
         return str(presidents[lastName])
     print("Ce président n'est pas enregistré.")
-    return None
 
-def authorsListDisplay(directory = "./speeches/"):
+def authorsListDisplay(directory = "./speeches/") -> None:
     """ Display the list of the authors' names. Return None"""
     listOfPresidentsNames = []
     for fileName in listdir(directory):
@@ -35,9 +34,8 @@ def authorsListDisplay(directory = "./speeches/"):
         if fullName not in listOfPresidentsNames:
             listOfPresidentsNames.append(fullName)
     print(listOfPresidentsNames)
-    return None
 
-def createCleanedFile(fileName: str):
+def createCleanedFile(fileName: str) -> None:
     """ Duplicate the file in the folder cleaned
     Argument :
         fileName : the name of the file that we want to clean
@@ -50,7 +48,7 @@ def createCleanedFile(fileName: str):
     file.close()
     cleanedFile.close()    
 
-def removeFilePunctuation(fileName: str):
+def removeFilePunctuation(fileName: str) -> None:
     """ Remove the punctuation in the text file which is in the folder cleaned
     Argument :
         fileName : the name of the file that we want to clean
@@ -72,7 +70,7 @@ def removeFilePunctuation(fileName: str):
     file.write(text)
     file.close()
 
-def termFrequency(text: str):
+def termFrequency(text: str) -> dict:
     """ Create a dictionary of the term frequency of each word
     Argument :
         text : the text of which we want the term frequency
@@ -93,7 +91,7 @@ def termFrequency(text: str):
         endIndex = beginningIndex - 1
     return dictionary
 
-def inverseDocumentFrequency(directory = "./cleaned/"):
+def inverseDocumentFrequency(directory = "./cleaned/") -> dict:
     """ Create a dictionary of the inverse document frequency of each words in the texts
     Argument :
         directory (optional) : the directory that contains the corpus of cleaned documents
@@ -113,7 +111,7 @@ def inverseDocumentFrequency(directory = "./cleaned/"):
         dictionary[word] = log10(len(listdir(directory))/dictionary[word])
     return dictionary
 
-def createTfidfMatrix(directory = "./cleaned/"):
+def createTfidfMatrix(directory = "./cleaned/") -> list:
     """ Create a matrix of the TF-IDF of the corpus of documents
         Each row represents the TF_IDF of the word that is at index 0
         Then, each column corresponds to a different text
@@ -138,7 +136,7 @@ def createTfidfMatrix(directory = "./cleaned/"):
         matrix.append(row)
     return matrix
 
-def createUselessWordsList(directory = "./cleaned/"):
+def createUselessWordsList(directory = "./cleaned/") -> list:
     """ Create a list that contains all the words whose TF-IDF score is zero for each text
     Argument :
         directory (optional) : the directory that contains the corpus of cleaned documents
@@ -159,7 +157,7 @@ def createUselessWordsList(directory = "./cleaned/"):
             uselessWords.append(tfidfMatrix[row][0])
     return uselessWords
 
-def mostRepeatedWords(authorsName = "Chirac", directory = "./cleaned/"):
+def mostRepeatedWords(authorsName = "Chirac", directory = "./cleaned/") -> list:
     """ Create a list of the words an author has repeated the most
     Argument :
         authorsName : the name of the author to study
@@ -182,7 +180,7 @@ def mostRepeatedWords(authorsName = "Chirac", directory = "./cleaned/"):
             repeatedWords.append(word)
     return repeatedWords
 
-def createHigherTfidfWordsList(directory = "./cleaned/"):
+def createHigherTfidfWordsList(directory = "./cleaned/") ->  list:
     """ Create the list of the words that have the higher TF-IDF score
     Argument :
         directory (optional) : the directory that contains the corpus of cleaned documents
@@ -200,7 +198,7 @@ def createHigherTfidfWordsList(directory = "./cleaned/"):
             wordsList.append(tfidfMatrix[row][0])
     return wordsList
 
-def findAuthorsWhoMentioned(word: str, directory = "./cleaned/"):
+def findAuthorsWhoMentioned(word: str, directory = "./cleaned/") -> list:
     """ Create a list of the authors who said a specific word
     Argument :
         word : the word that we want to study
@@ -221,7 +219,7 @@ def findAuthorsWhoMentioned(word: str, directory = "./cleaned/"):
                 authorsWhoMentioned[nameOfTheAuthor] += currentTF[word]
     return authorsWhoMentioned
 
-def findAuthorsWhoMostRepeated(word: str, directory = "./cleaned/"):
+def findAuthorsWhoMostRepeated(word: str, directory = "./cleaned/") -> list:
     """ Create a list of the authors who have said a specific word the most
     Argument :
         word : the word that we want to study
@@ -237,7 +235,7 @@ def findAuthorsWhoMostRepeated(word: str, directory = "./cleaned/"):
             authorsWhoMostRepeated.append(author)
     return authorsWhoMostRepeated
 
-def findFirstToMention(word : str) :
+def findFirstToMention(word : str) -> str:
     """ Find the first author (president) who said a specific word
         This function has to be modified to accept more authors
     Arguments :
@@ -261,7 +259,7 @@ def findFirstToMention(word : str) :
     elif "Macron" in listOfMentioners :
         return "Macron"
     
-def createWhoseTextIsIt(directory = "./cleaned/"):
+def createWhoseTextIsIt(directory = "./cleaned/") -> dict:
     """ Creates a dictionary used to interpret the TF-IDF matrix
         Associates with each author the indexes corresponding to his texts
     Argument :
@@ -280,7 +278,7 @@ def createWhoseTextIsIt(directory = "./cleaned/"):
             textIndex[authorsName] = [i + 1]
     return textIndex
 
-def allAuthorsSaid(directory = "./cleaned/"):
+def allAuthorsSaid(directory = "./cleaned/") -> list:
     """ Creates a list of all words that all authors said and that are not useless words
     Arguments :
         directory (optional) : the directory that contains the corpus of cleaned documents
