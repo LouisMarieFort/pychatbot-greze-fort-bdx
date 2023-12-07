@@ -1,4 +1,8 @@
 from fonctions import *
+from dataPreprocessingFunctions import *
+from authorManagementFunctions import *
+from tfidfFunctions import *
+from questionRepresentationFunctions import *
 from checkFunctions import *
 
 requestedMenu = -1
