@@ -1,4 +1,3 @@
-from fonctions import *
 from dataPreprocessingFunctions import *
 from authorManagementFunctions import *
 from tfidfFunctions import *

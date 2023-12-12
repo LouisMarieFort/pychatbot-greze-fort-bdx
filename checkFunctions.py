@@ -1,4 +1,3 @@
-from fonctions import *
 from authorManagementFunctions import *
 from tfidfFunctions import *
 from os import listdir
