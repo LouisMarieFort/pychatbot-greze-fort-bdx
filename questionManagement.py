@@ -1,6 +1,6 @@
 from re import sub
 from tfidfFunctions import *
-
+from os import listdir
 
 def getLoweredString(string : str) -> str:
     return string.lower()
@@ -74,9 +74,22 @@ def getQuestionTfidfMatrix(intersection : list, directory = "./cleaned/") -> lis
         matrix.append(row)
     return matrix
 
+def getTfidfVectorOfDocument(fileName : str, tfidfMatrix : list, directory = "./cleaned/") -> list:
+    vector = list()
+    fileIndex = 0
+    isFound = None
+    while fileIndex <= len(listdir(directory)) and not isFound:
+        if fileName == listdir(directory)[fileIndex]:
+            isFound = True
+        fileIndex += 1                        # On conserve la valeur supérieure puisque les indices de notre matrice TF-IDF sont de 1 de plus
+    for row in tfidfMatrix:
+        vector.append(row[fileIndex])
+    return vector
+
 #tests
-cleanedQuestion = getCleanedQuestion("Qui a parlé en premier du climat ? officiellement zebi")
+cleanedQuestion = getCleanedQuestion("Qui a parlé en premier du climat ? officiellement grng zebi")
 intersection = getIntersectionWords(cleanedQuestion)
 text = open("./cleaned/Nomination_Chirac1.txt", 'r', encoding = "UTF-8").read()
 #print(getQuestionTf(text, intersection))
-print(getQuestionTfidfMatrix(intersection))
+#print(getQuestionTfidfMatrix(intersection))
+print(getTfidfVectorOfDocument("Nomination_Sarkozy.txt", createTfidfMatrix()))
