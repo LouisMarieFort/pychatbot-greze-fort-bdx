@@ -58,11 +58,11 @@ def createTfidfMatrix(directory = "./cleaned/") -> list:
     for fileName in filesNamesList:
         with open(directory + fileName, 'r', encoding = "UTF-8") as file:
             listOfTF.append(termFrequency(file.read()))
-    for wordAndITF in inverseDocumentFrequency(directory).items():
-        row = [wordAndITF[0]]
+    for wordAndIDF in inverseDocumentFrequency(directory).items():
+        row = [wordAndIDF[0]]
         for column in range(len(filesNamesList)):
-            if wordAndITF[0] in listOfTF[column].keys():
-                row.append(wordAndITF[1] * listOfTF[column][wordAndITF[0]])
+            if wordAndIDF[0] in listOfTF[column].keys():
+                row.append(wordAndIDF[1] * listOfTF[column][wordAndIDF[0]])
             else:
                 row.append(0)
         matrix.append(row)
