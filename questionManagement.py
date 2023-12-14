@@ -99,6 +99,22 @@ def getQuestionTfidfMatrix(intersection : list, directory = "./cleaned/") -> lis
         matrix.append(row)
     return matrix
 
+def highestTfidfOfQuestion(vector : list) -> str:
+    """
+    temp : vector : le vecteur tfidf de la question
+    """
+    index = questionTfidfVector.index(max(questionTfidfVector))
+    mots = list(inverseDocumentFrequency().keys())
+    return mots[index]
+
+def MostRelevantSentence(word,vector : list,directory = "./speeches/") -> str :
+    document = getMostRelevantDocument(vector)
+    text = open(directory+document,"r",encoding = "UTF-8").read()
+    sentences = document.split(".")
+    for i in sentences :
+        if word in i :
+            return i
+
 #tests
 cleanedQuestion = getCleanedQuestion("Qui a parlé en premier du climat ? officiellement zebi")
 intersection = getIntersectionWords(cleanedQuestion)
