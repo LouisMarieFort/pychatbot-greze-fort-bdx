@@ -3,9 +3,21 @@ from tfidfFunctions import *
 
 
 def getLoweredString(string : str) -> str:
+    """Transforms any capital letter into a lower case one
+        Argument :
+            string : it has to be a string type of variable
+        Return : 
+            string.lower() : it returns a string
+    """
     return string.lower()
 
 def getStringWords(string : str) -> list:
+    """Returns a list of all the words in a sentence
+    Argument :
+        string : takes in a string variable, a sentence
+    Return :
+        string.split() : it returns a list of all the words in the sentence
+    """
     punctuation = {'\n', '!', ',', '?', ';'}
     specificPunctuation = {'-', "'", '.', ',\n'}
     for punctuationMark in specificPunctuation:
@@ -16,10 +28,23 @@ def getStringWords(string : str) -> list:
     return string.split()
 
 def getCleanedQuestion(question : str) -> list:
+    """Returns a list of all the words in a cleaned question
+    Argument :
+        question : takes in an uncleaned string variable (contains punctuation, has capital letters)
+    Return :
+        getStringWords(question) : it returns a list of all the words of the sentence, cleaned without punctuation
+    """
     question = getLoweredString(question)
     return getStringWords(question)
 
 def getIntersectionWords(wordsList : list, directory = "./cleaned/") -> list:
+    """Creates and returns a list of the words present in both wordList and the documents
+    Argument :
+        wordsList : takes in a list of words to compare
+        directory (optional) : the directory that contains the corpus of cleaned documents to compare to
+    Return :
+        intersection : returns a list of the intersections
+    """
     corpusIdf = inverseDocumentFrequency(directory)
     intersection = list()
     for word in wordsList:
