@@ -1,0 +1,15 @@
+def produitScalaire(A,B) :
+    scalaire = 0
+    for i in range(len(A)-1) :
+        scalaire = scalaire + (A[i]*B[i])
+    return scalaire
+
+def norme(A) :
+    norme = 0
+    for i in A :
+        norme += A[i]**2
+    norme = sqrt(norme)
+    return norme
+
+def similariteCos(A,B) :
+    return (produitScalaire(A,B))/(norme(A)*norme(B))
