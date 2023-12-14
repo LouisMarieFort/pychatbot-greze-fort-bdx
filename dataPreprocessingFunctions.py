@@ -19,7 +19,7 @@ def removeFilePunctuation(fileName: str) -> None:
         fileName : the name of the file that we want to clean
     Return None
     """
-    punctuation = {'\n', '!', ',', '?', ';'}
+    punctuation = {'\n', '!', ',', '?', ';', '"'}
     specificPunctuation = {'-', "'", '.', ',\n'}
     file = open("./cleaned/" + fileName, 'r', encoding = "UTF-8")
     text = file.read()

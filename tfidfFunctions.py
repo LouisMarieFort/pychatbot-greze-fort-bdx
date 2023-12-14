@@ -67,3 +67,32 @@ def createTfidfMatrix(directory = "./cleaned/") -> list:
                 row.append(0)
         matrix.append(row)
     return matrix
+
+def getTfidfVectorOfDocument(fileName : str, directory = "./cleaned/") -> list:
+    vector = list()
+    tfidfMatrix = createTfidfMatrix(directory)
+    fileIndex = 0
+    isFound = None
+    while fileIndex < len(listdir(directory)) and not isFound:
+        if fileName == listdir(directory)[fileIndex]:
+            isFound = True
+        fileIndex += 1                        # On conserve la valeur supérieure puisque les indices de notre matrice TF-IDF sont de 1 de plus
+    for row in tfidfMatrix:
+        vector.append(row[fileIndex])
+    return vector
+
+def getQuestionTfidfVector(questionTf : dict, directory = "./cleaned/") -> list:
+    vector = list()
+    for wordAndIdf in inverseDocumentFrequency(directory).items():
+        vector.append(questionTf[wordAndIdf[0]] * wordAndIdf[1])
+    return vector
+
+def getQuestionTf(intersection : list, directory = "./cleaned/") -> dict:
+    dictionary = dict()
+    corpusIdf = inverseDocumentFrequency(directory)
+    for word in corpusIdf.keys():
+        if word in intersection:
+            dictionary[word] = intersection.count(word) / len(intersection)
+        else:
+            dictionary[word] = 0
+    return dictionary

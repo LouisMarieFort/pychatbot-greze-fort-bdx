@@ -1,6 +1,7 @@
 from re import sub
 from tfidfFunctions import *
-
+from os import listdir
+from math import sqrt
 
 def getLoweredString(string : str) -> str:
     """Transforms any capital letter into a lower case one
@@ -52,56 +53,43 @@ def getIntersectionWords(wordsList : list, directory = "./cleaned/") -> list:
             intersection.append(word)
     return intersection
 
-def getQuestionTf(text : str, intersection : list) -> dict:
-    """ Create a dictionary of the term frequency of each word
-    Argument :
-        text : the text of which we want the term frequency
-               it has to be "clean" : in lowercase characters with no punctuation
-    Return :
-        dictionary : dictionary associating each word with its number of occurrences in the text
-    """
-    dictionary = dict()
-    endIndex = len(text)
-    while endIndex > 0:
-        beginningIndex = endIndex
-        while text[beginningIndex - 1] != ' ' and beginningIndex > 0:
-            beginningIndex -= 1
-        if text[beginningIndex : endIndex] not in dictionary.keys():
-            dictionary[text[beginningIndex : endIndex]] = 0
-        endIndex = beginningIndex - 1
-    for word in intersection:
-        if word in dictionary.keys():
-            dictionary[word] += 1
-    return dictionary
+def getDotProduct(vector1 : list, vector2 : list) -> float:
+    dotProduct = 0
+    for i in range(len(vector1)):
+        dotProduct += vector1[i] * vector2[i]
+    return dotProduct
 
-def getQuestionTfidfMatrix(intersection : list, directory = "./cleaned/") -> list:
-    """ Create a matrix of the TF-IDF of the corpus of documents
-        Each row represents the TF_IDF of the word that is at index 0
-        Then, each column corresponds to a different text
-    Argument :
-        directory (optional) : the directory that contains the corpus of cleaned documents
-    Return :
-        matrix : the TF-IDF matrix
-    """
-    matrix = []
-    filesNamesList = listdir(directory)
-    listOfTF = []                                                            #list of dictionaries
-    for fileName in filesNamesList:
-        with open(directory + fileName, 'r', encoding = "UTF-8") as file:
-            listOfTF.append(getQuestionTf(file.read(), intersection))
-    for wordAndIDF in inverseDocumentFrequency(directory).items():
-        row = [wordAndIDF[0]]
-        for column in range(len(filesNamesList)):
-            if wordAndIDF[0] in listOfTF[column].keys():
-                row.append(wordAndIDF[1] * listOfTF[column][wordAndIDF[0]])
-            else:
-                row.append(0)
-        matrix.append(row)
-    return matrix
+def getVectorNorm(vector : list) -> float:
+    sum = 0
+    for i in range(len(vector)):
+        sum += vector[i] ** 2
+    return sqrt(sum)
+
+def getCosineSimilarity(vector1 : list, vector2 : list) -> float:
+    return getDotProduct(vector1, vector2) / (getVectorNorm(vector1) * getVectorNorm(vector2))
+
+def getMostRelevantDocument(questionVector : list, directory = "./cleaned/") -> str:
+    cosineSimilarities = list()
+    for fileName in listdir(directory):
+        cosineSimilarities.append(getCosineSimilarity(getTfidfVectorOfDocument(fileName, directory), questionVector))
+    return listdir(directory)[cosineSimilarities.index(max(cosineSimilarities))]
 
 #tests
-cleanedQuestion = getCleanedQuestion("Qui a parlé en premier du climat ? officiellement zebi")
+#cleanedQuestion = getCleanedQuestion("Qui a parlé en premier du climat ? officiellement grng zebi")
+cleanedQuestion = getCleanedQuestion("Peux-tu me dire comment une nation peut-elle prendre soin du climat ?")
 intersection = getIntersectionWords(cleanedQuestion)
 text = open("./cleaned/Nomination_Chirac1.txt", 'r', encoding = "UTF-8").read()
 #print(getQuestionTf(text, intersection))
-print(getQuestionTfidfMatrix(intersection))
+#print(getQuestionTfidfMatrix(intersection))
+#print(intersection)
+#print(getQuestionTf(intersection))
+#print(getQuestionTfidfVector(getQuestionTf(intersection)))
+#print(getDotProduct(getTfidfVectorOfDocument("Nomination_Chirac2.txt", createTfidfMatrix()), getQuestionTfidfVector(getQuestionTf(intersection))))
+#print(getCosineSimilarity([7,2,5],[0,0,5]))
+#print(getMostRelevantDocument(getQuestionTfidfVector(getQuestionTf(intersection))))
+#print(getTfidfVectorOfDocument("Nomination_Sarkozy.txt"))
+questionTf = getQuestionTf(intersection)
+vector1 = getTfidfVectorOfDocument("Nomination.txt")
+vector2 = getQuestionTfidfVector(questionTf)
+
+print(getMostRelevantDocument(vector2))
