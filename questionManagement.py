@@ -43,8 +43,15 @@ def getVectorNorm(vector : list) -> float:
 def getCosineSimilarity(vector1 : list, vector2 : list) -> float:
     return getDotProduct(vector1, vector2) / (getVectorNorm(vector1) * getVectorNorm(vector2))
 
+def getMostRelevantDocument(questionVector : list, directory = "./cleaned/") -> str:
+    cosineSimilarities = list()
+    for fileName in listdir(directory):
+        cosineSimilarities.append(getCosineSimilarity(getTfidfVectorOfDocument(fileName, directory), questionVector))
+    return listdir(directory)[cosineSimilarities.index(max(cosineSimilarities))]
+
 #tests
-cleanedQuestion = getCleanedQuestion("Qui a parlé en premier du climat ? officiellement grng zebi")
+#cleanedQuestion = getCleanedQuestion("Qui a parlé en premier du climat ? officiellement grng zebi")
+cleanedQuestion = getCleanedQuestion("Peux-tu me dire comment une nation peut-elle prendre soin du climat ?")
 intersection = getIntersectionWords(cleanedQuestion)
 text = open("./cleaned/Nomination_Chirac1.txt", 'r', encoding = "UTF-8").read()
 #print(getQuestionTf(text, intersection))
@@ -53,4 +60,11 @@ text = open("./cleaned/Nomination_Chirac1.txt", 'r', encoding = "UTF-8").read()
 #print(getQuestionTf(intersection))
 #print(getQuestionTfidfVector(getQuestionTf(intersection)))
 #print(getDotProduct(getTfidfVectorOfDocument("Nomination_Chirac2.txt", createTfidfMatrix()), getQuestionTfidfVector(getQuestionTf(intersection))))
-print(getCosineSimilarity([0,2],[0,2]))
+#print(getCosineSimilarity([7,2,5],[0,0,5]))
+#print(getMostRelevantDocument(getQuestionTfidfVector(getQuestionTf(intersection))))
+#print(getTfidfVectorOfDocument("Nomination_Sarkozy.txt"))
+questionTf = getQuestionTf(intersection)
+vector1 = getTfidfVectorOfDocument("Nomination.txt")
+vector2 = getQuestionTfidfVector(questionTf)
+
+print(getMostRelevantDocument(vector2))
