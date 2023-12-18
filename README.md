@@ -34,7 +34,7 @@ Ceci est la liste des fonctions plus techniques, permettant à l’utilisateur d
 
 * findAuthorsFirstName() : Cette fonctions permet à l’utilisateur d’afficher le prénom correspondant au nom d'un auteur.
 
-* authorsListDisplay() : Cette fonction permet d’afficher la liste des noms des auteurs.
+* displayAuthorsList() : Cette fonction permet d’afficher la liste des noms des auteurs.
 
 * createCleanedFile() : Cette fonction permet de créer les versions 'nettoyés' des fichiers texte , c’est-à-dire des texte sans majuscules, ni accents juste avec ponctuations et espaces.
 
