@@ -131,7 +131,7 @@ def getAnswerStarter(question: str) -> str:
         return questionStarters[question.split()[0]]
 
         
-def questionManagementToGetAnswer(question : str) -> None:
+def questionManagementToGetAnswer(question : str, directory = "./speeches/") -> None:
     """ Procedure for obtaining an answer to a question
     Argument : 
         question : the question we want to answer
@@ -143,7 +143,7 @@ def questionManagementToGetAnswer(question : str) -> None:
     while mostRelevantSentence == None:                                          # Au cas où le mot avec le plus haut tfidf n'est pas dans le texte
         questionTfidfVector = getQuestionTfidfVector(getQuestionTf(getIntersectionWords(getCleanedQuestion(question))))
         highestTfidfOfQuestion = getHighestTfidfOfQuestion(questionTfidfVector)
-        mostRelevantSentence = getMostRelevantSentence(highestTfidfOfQuestion, questionTfidfVector)
+        mostRelevantSentence = getMostRelevantSentence(highestTfidfOfQuestion, questionTfidfVector, directory)
         question = question.replace(highestTfidfOfQuestion, "")
     if answer == None:
         answer = mostRelevantSentence.lstrip()

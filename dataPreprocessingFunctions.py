@@ -1,12 +1,13 @@
 from re import sub
 
-def createCleanedFile(fileName: str) -> None:
+def createCleanedFile(fileName: str, directory = "./speeches/") -> None:
     """ Duplicate the file in the folder cleaned
     Argument :
         fileName : the name of the file that we want to clean
+        directory : the name of the directory where we want the cleaned file
     Return None
     """
-    file = open("./speeches/" + fileName, 'r', encoding = "UTF-8")
+    file = open(directory + fileName, 'r', encoding = "UTF-8")
     cleanedFile = open("./cleaned/" + fileName, 'w', encoding = "UTF-8")
     for line in file.readlines():
         cleanedFile.write(line.lower())
@@ -37,7 +38,7 @@ def removeFilePunctuation(fileName: str, directory = "./cleaned/") -> None:
 
 def manageSimilarWords(fileName : str, directory = "./cleaned/") -> None:
     text = open(directory + fileName, 'r', encoding = "UTF-8").read()
-    correspondingWord = {"le": {'l', "la"}, "que" : {"qu"}, "je" : {'j'}}
+    correspondingWord = {" le ": {" l ", " la "}, " que " : {" qu "}, " je " : {" j "}}
     for word in correspondingWord.keys():
         for elidedWord in correspondingWord[word]:
             text = text.replace(elidedWord, word)
