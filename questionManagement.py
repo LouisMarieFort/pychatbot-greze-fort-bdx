@@ -74,22 +74,37 @@ def getMostRelevantDocument(questionVector : list, directory = "./cleaned/") -> 
         cosineSimilarities.append(getCosineSimilarity(getTfidfVectorOfDocument(fileName, directory), questionVector))
     return listdir(directory)[cosineSimilarities.index(max(cosineSimilarities))]
 
-#tests
-#cleanedQuestion = getCleanedQuestion("Qui a parlé en premier du climat ? officiellement grng zebi")
-cleanedQuestion = getCleanedQuestion("Peux-tu me dire comment une nation peut-elle prendre soin du climat ?")
-intersection = getIntersectionWords(cleanedQuestion)
-text = open("./cleaned/Nomination_Chirac1.txt", 'r', encoding = "UTF-8").read()
-#print(getQuestionTf(text, intersection))
-#print(getQuestionTfidfMatrix(intersection))
-#print(intersection)
-#print(getQuestionTf(intersection))
-#print(getQuestionTfidfVector(getQuestionTf(intersection)))
-#print(getDotProduct(getTfidfVectorOfDocument("Nomination_Chirac2.txt", createTfidfMatrix()), getQuestionTfidfVector(getQuestionTf(intersection))))
-#print(getCosineSimilarity([7,2,5],[0,0,5]))
-#print(getMostRelevantDocument(getQuestionTfidfVector(getQuestionTf(intersection))))
-#print(getTfidfVectorOfDocument("Nomination_Sarkozy.txt"))
-questionTf = getQuestionTf(intersection)
-vector1 = getTfidfVectorOfDocument("Nomination.txt")
-vector2 = getQuestionTfidfVector(questionTf)
+def getHighestTfidfOfQuestion(questionVector : list) -> str:
+    """
+    temp : vector : le vecteur tfidf de la question
+    """
+    index = questionVector.index(max(questionVector))
+    mots = list(inverseDocumentFrequency().keys())
+    return mots[index]
 
-print(getMostRelevantDocument(vector2))
+def getMostRelevantSentence(word : str, vector : list, directory = "./speeches/") -> str :
+    document = getMostRelevantDocument(vector)
+    text = open(directory + document, "r", encoding = "UTF-8").read()
+    sentences = text.split(".")
+    for i in sentences:
+        if word in i.lower():
+            return i
+        
+def questionManagementToGetAnswer(question : str) -> None:
+    """ Procedure for obtaining an answer to a question
+    Argument : 
+        question : the question we want to answer
+    Return :
+        mostRelevantSentence : the answer to the question
+    """
+    mostRelevantSentence = None
+    while mostRelevantSentence == None:                                          # Au cas où le mot avec le plus haut tfidf n'est pas dans le texte
+        questionTfidfVector = getQuestionTfidfVector(getQuestionTf(getIntersectionWords(getCleanedQuestion(question))))
+        highestTfidfOfQuestion = getHighestTfidfOfQuestion(questionTfidfVector)
+        mostRelevantSentence = getMostRelevantSentence(highestTfidfOfQuestion, questionTfidfVector)
+        question = question.replace(highestTfidfOfQuestion, "")
+    return mostRelevantSentence
+
+#tests
+
+print(questionManagementToGetAnswer("Comment une nation peut-elle prendre soin du climat ?"))
