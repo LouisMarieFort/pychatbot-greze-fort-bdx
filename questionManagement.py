@@ -66,7 +66,11 @@ def getVectorNorm(vector : list) -> float:
     return sqrt(sum)
 
 def getCosineSimilarity(vector1 : list, vector2 : list) -> float:
-    return getDotProduct(vector1, vector2) / (getVectorNorm(vector1) * getVectorNorm(vector2))
+    normProduct = (getVectorNorm(vector1) * getVectorNorm(vector2))
+    if normProduct == 0:
+        raise AssertionError("Calcul impossible pour cette question.\nVeuillez utiliser des mots plus proches du thème des textes.")
+    else:
+        return getDotProduct(vector1, vector2) / normProduct
 
 def getMostRelevantDocument(questionVector : list, directory = "./cleaned/") -> str:
     cosineSimilarities = list()
@@ -93,7 +97,7 @@ def getMostRelevantSentence(word : str, vector : list, directory = "./speeches/"
 def getAnswerStarter(question: str) -> str:
     questionStarters = {"Comment": "Après analyse, ", 
                          "Pourquoi": "Car, ", 
-                         "Peux-tu": "Oui, bien sûr!"}
+                         "Peux-tu": "Oui, bien sûr, "}
     if question.split()[0] in questionStarters:
         return questionStarters[question.split()[0]]
 
@@ -113,7 +117,7 @@ def questionManagementToGetAnswer(question : str) -> None:
         mostRelevantSentence = getMostRelevantSentence(highestTfidfOfQuestion, questionTfidfVector)
         question = question.replace(highestTfidfOfQuestion, "")
     if answer == None:
-        answer = mostRelevantSentence
+        answer = mostRelevantSentence.lstrip()
     else:
         mostRelevantSentence = mostRelevantSentence.lstrip()
         answer += mostRelevantSentence.replace(mostRelevantSentence[0], mostRelevantSentence[0].lower())
