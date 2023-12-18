@@ -39,7 +39,7 @@ def getCleanedQuestion(question : str) -> list:
     return getStringWords(question)
 
 def getIntersectionWords(wordsList : list, directory = "./cleaned/") -> list:
-    """Creates and returns a list of the words present in both wordList and the documents
+    """ Creates and returns a list of the words present in both wordList and the documents
     Argument :
         wordsList : takes in a list of words to compare
         directory (optional) : the directory that contains the corpus of cleaned documents to compare to
@@ -54,18 +54,38 @@ def getIntersectionWords(wordsList : list, directory = "./cleaned/") -> list:
     return intersection
 
 def getDotProduct(vector1 : list, vector2 : list) -> float:
+    """ Return the dot product of two vectors
+    Arguments :
+        vector1 : the list of coordinates representing the first vector
+        vector2 : the list of coordinates representing the second vector
+    Return :
+        dotProduct : the dot product of the two vectors
+    """
     dotProduct = 0
     for i in range(len(vector1)):
         dotProduct += vector1[i] * vector2[i]
     return dotProduct
 
 def getVectorNorm(vector : list) -> float:
+    """ Return the norm of a vector
+    Argument :
+        vector : the list of coordinates representing the vector
+    Return :
+        the norm of the vector using the square root of the sum of the coordinates
+    """
     sum = 0
     for i in range(len(vector)):
         sum += vector[i] ** 2
     return sqrt(sum)
 
 def getCosineSimilarity(vector1 : list, vector2 : list) -> float:
+    """ Return the cosine similarity of two vectors
+    Arguments :
+        vector1 : the list of coordinates representing the first vector
+        vector2 : the list of coordinates representing the second vector
+    Return :
+        the cosine similarity of the vectors using the dot product over the product of the norms
+    """
     normProduct = (getVectorNorm(vector1) * getVectorNorm(vector2))
     if normProduct == 0:
         raise AssertionError("Calcul impossible pour cette question.\nVeuillez utiliser des mots plus proches du thème des textes.")
@@ -73,14 +93,23 @@ def getCosineSimilarity(vector1 : list, vector2 : list) -> float:
         return getDotProduct(vector1, vector2) / normProduct
 
 def getMostRelevantDocument(questionVector : list, directory = "./cleaned/") -> str:
+    """ Select the most relevant document
+    Arguments :
+        questionVector : the list of coordinates representing the question vector
+    Return :
+        the name of the most relevant document
+    """
     cosineSimilarities = list()
     for fileName in listdir(directory):
         cosineSimilarities.append(getCosineSimilarity(getTfidfVectorOfDocument(fileName, directory), questionVector))
     return listdir(directory)[cosineSimilarities.index(max(cosineSimilarities))]
 
 def getHighestTfidfOfQuestion(questionVector : list) -> str:
-    """
-    temp : vector : le vecteur tfidf de la question
+    """ return the word with the highest tfidf of the question
+    Arguments :
+        vector : the tfidf vector of the question
+    Return :
+        the word with the highest tfidf of the question
     """
     index = questionVector.index(max(questionVector))
     mots = list(inverseDocumentFrequency().keys())

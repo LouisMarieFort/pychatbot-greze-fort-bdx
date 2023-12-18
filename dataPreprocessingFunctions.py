@@ -13,7 +13,7 @@ def createCleanedFile(fileName: str) -> None:
     file.close()
     cleanedFile.close() 
 
-def removeFilePunctuation(fileName: str) -> None:
+def removeFilePunctuation(fileName: str, directory = "./cleaned/") -> None:
     """ Remove the punctuation in the text file which is in the folder cleaned
     Argument :
         fileName : the name of the file that we want to clean
@@ -21,7 +21,7 @@ def removeFilePunctuation(fileName: str) -> None:
     """
     punctuation = {'\n', '!', ',', '?', ';', '"'}
     specificPunctuation = {'-', "'", '.', ',\n'}
-    file = open("./cleaned/" + fileName, 'r', encoding = "UTF-8")
+    file = open(directory + fileName, 'r', encoding = "UTF-8")
     text = file.read()
     for punctuationMark in specificPunctuation:
        text = text.replace(punctuationMark, ' ')    
@@ -31,6 +31,26 @@ def removeFilePunctuation(fileName: str) -> None:
     if text[-1] == ' ':
         text = text[:-1]
     file.close()
-    file = open("./cleaned/" + fileName, 'w', encoding = "UTF-8")
+    file = open(directory + fileName, 'w', encoding = "UTF-8")
+    file.write(text)
+    file.close()
+
+def manageSimilarWords(fileName : str, directory = "./cleaned/") -> None:
+    text = open(directory + fileName, 'r', encoding = "UTF-8").read()
+    correspondingWord = {"le": {'l', "la"}, "que" : {"qu"}, "je" : {'j'}}
+    for word in correspondingWord.keys():
+        for elidedWord in correspondingWord[word]:
+            text = text.replace(elidedWord, word)
+    file = open(directory + fileName, 'w', encoding = "UTF-8")
+    file.write(text)
+    file.close()
+
+def removeAccents(fileName : str, directory = "./cleaned/") -> None:
+    text = open(directory + fileName, 'r', encoding = "UTF-8").read()
+    correspondingLetter = {'a': {'à', 'â', 'ä'}, 'e': {'é', 'è', 'ê', 'ë'}, 'i': {'î', 'ï'}, 'o': {'ô', 'ö'}, 'u': {'ù', 'û', 'ü'}}
+    for letter in correspondingLetter.keys():
+        for accentuatedLetter in correspondingLetter[letter]:
+            text = text.replace(accentuatedLetter, letter)
+    file = open(directory + fileName, 'w', encoding = "UTF-8")
     file.write(text)
     file.close()

@@ -18,6 +18,8 @@ while requestedMenu < 1 or requestedMenu > 4:
 for fileName in listdir("./speeches/"):
         createCleanedFile(fileName)
         removeFilePunctuation(fileName)
+        manageSimilarWords(fileName)
+        removeAccents(fileName)
 
 continueCondition = True
 numberOfFunctionalities1 = 7
