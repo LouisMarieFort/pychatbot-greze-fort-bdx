@@ -39,7 +39,7 @@ def mostRepeatedWords(authorsName = "Chirac", directory = "./cleaned/") -> list:
     for fileName in filesList:
         with open(directory + fileName, 'r', encoding = "UTF-8") as currentFile:
             totalText += ' ' + currentFile.read()
-    for word in createUselessWordsList():
+    for word in createUselessWordsList(directory):
         totalText = totalText.replace(word + ' ', '')
     totalTf = termFrequency(totalText)
     maximalOccurenceNumber = max(totalTf.values())
@@ -156,7 +156,7 @@ def allAuthorsSaid(directory = "./cleaned/") -> list:
     """
     tfidfMatrix = createTfidfMatrix(directory)
     whoseTestItIs = createWhoseTextIsIt(directory)
-    trashWords = createUselessWordsList()
+    trashWords = createUselessWordsList(directory)
     result = []
     for row in tfidfMatrix:
         saidByAll = True

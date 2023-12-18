@@ -8,10 +8,11 @@ from os import remove
 
 requestedCorpus = -1
 while requestedCorpus < 1 or requestedCorpus > 2:
-    print("Sélectionner le numéro associé au menu souhaité : \n\
+    print("Sélectionner le corpus de documents à étudier : \n\
           1 : speeches : discours de présidents \n\
           2 : turtles : articles sur les tortues")
     requestedCorpus = int(input())
+    print()
 if requestedCorpus == 1:
     directory = "./speeches/"
 else:

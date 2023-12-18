@@ -135,6 +135,7 @@ def questionManagementToGetAnswer(question : str, directory = "./speeches/") -> 
     """ Procedure for obtaining an answer to a question
     Argument : 
         question : the question we want to answer
+        directory : the studied directory 
     Return :
         mostRelevantSentence : the answer to the question
     """

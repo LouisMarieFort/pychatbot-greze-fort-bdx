@@ -19,9 +19,9 @@ def findAuthorsFirstName(lastName: str) -> str:
         lastName : the last name of the author
     Return the last name of the author (str)
     """
-    presidents = {"Chirac": "Jacques", "Giscard dEstaing": "Valéry", "Hollande": "François", "Mitterrand": "François", "Macron": "Emmanuel", "Sarkozy": "Nicolas"}
-    if lastName in presidents.keys():
-        return str(presidents[lastName])
+    authors = {"Chirac": "Jacques", "Giscard dEstaing": "Valéry", "Hollande": "François", "Mitterrand": "François", "Macron": "Emmanuel", "Sarkozy": "Nicolas"}
+    if lastName in authors.keys():
+        return str(authors[lastName])
     print("Ce président n'est pas enregistré.")
 
 def DisplayAuthorsList(directory = "./speeches/") -> None:
