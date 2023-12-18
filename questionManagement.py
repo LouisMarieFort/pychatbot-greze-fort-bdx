@@ -122,7 +122,3 @@ def questionManagementToGetAnswer(question : str) -> None:
         mostRelevantSentence = mostRelevantSentence.lstrip()
         answer += mostRelevantSentence.replace(mostRelevantSentence[0], mostRelevantSentence[0].lower())
     return answer
-
-#tests
-
-print(questionManagementToGetAnswer("Comment une nation peut-elle prendre soin du climat ?"))
