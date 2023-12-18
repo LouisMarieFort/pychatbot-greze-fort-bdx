@@ -89,6 +89,14 @@ def getMostRelevantSentence(word : str, vector : list, directory = "./speeches/"
     for i in sentences:
         if word in i.lower():
             return i
+
+def getAnswerStarter(question: str) -> str:
+    questionStarters = {"Comment": "Après analyse, ", 
+                         "Pourquoi": "Car, ", 
+                         "Peux-tu": "Oui, bien sûr!"}
+    if question.split()[0] in questionStarters:
+        return questionStarters[question.split()[0]]
+
         
 def questionManagementToGetAnswer(question : str) -> None:
     """ Procedure for obtaining an answer to a question
@@ -97,13 +105,19 @@ def questionManagementToGetAnswer(question : str) -> None:
     Return :
         mostRelevantSentence : the answer to the question
     """
+    answer = getAnswerStarter(question)
     mostRelevantSentence = None
     while mostRelevantSentence == None:                                          # Au cas où le mot avec le plus haut tfidf n'est pas dans le texte
         questionTfidfVector = getQuestionTfidfVector(getQuestionTf(getIntersectionWords(getCleanedQuestion(question))))
         highestTfidfOfQuestion = getHighestTfidfOfQuestion(questionTfidfVector)
         mostRelevantSentence = getMostRelevantSentence(highestTfidfOfQuestion, questionTfidfVector)
         question = question.replace(highestTfidfOfQuestion, "")
-    return mostRelevantSentence
+    if answer == None:
+        answer = mostRelevantSentence
+    else:
+        mostRelevantSentence = mostRelevantSentence.lstrip()
+        answer += mostRelevantSentence.replace(mostRelevantSentence[0], mostRelevantSentence[0].lower())
+    return answer
 
 #tests
 
