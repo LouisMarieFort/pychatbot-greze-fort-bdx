@@ -1,4 +1,4 @@
-
+from os import listdir
 
 def findAuthorsName(fileName: str) -> str:
     """ Return the name of the text's author
@@ -24,7 +24,7 @@ def findAuthorsFirstName(lastName: str) -> str:
         return str(presidents[lastName])
     print("Ce président n'est pas enregistré.")
 
-def authorsListDisplay(directory = "./speeches/") -> None:
+def DisplayAuthorsList(directory = "./speeches/") -> None:
     """ Display the list of the authors' names. Return None"""
     listOfPresidentsNames = []
     for fileName in listdir(directory):

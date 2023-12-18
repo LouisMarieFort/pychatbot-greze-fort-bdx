@@ -3,13 +3,15 @@ from authorManagementFunctions import *
 from tfidfFunctions import *
 from questionRepresentationFunctions import *
 from checkFunctions import *
+from questionManagement import *
 
 requestedMenu = -1
-while requestedMenu < 1 or requestedMenu > 3:
+while requestedMenu < 1 or requestedMenu > 4:
     print("Sélectionner le numéro associé au menu souhaité : \n\
           1 : Menu principal \n\
           2 : Tester les fonctions techniques \n\
-          3 : Les deux à la suite ")
+          3 : Les deux menus à la suite \n\
+          4 : Poser une question au ChatBot")
     requestedMenu = int(input())
 
 # Traitement des fichiers du dossier speeches
@@ -20,7 +22,7 @@ for fileName in listdir("./speeches/"):
 continueCondition = True
 numberOfFunctionalities1 = 7
 requestedFunctionality = -1
-while requestedMenu != 2 and continueCondition == 1:
+while requestedMenu != 2 and requestedMenu != 4 and continueCondition == 1:
     print("\nSélectionnez le nombre correspondant à votre requête dans la console Python : \n\
             1 : Afficher la liste des mots les moins importants du corpus de documents \n\
             2 : Afficher le(s) mot(s) ayant le score TF-IDF le plus élevé \n\
@@ -76,7 +78,7 @@ while requestedMenu != 2 and continueCondition == 1:
         
 continueCondition = True
 numberOfFunctionalities2 = 8
-while requestedMenu != 1 and continueCondition == 1:
+while requestedMenu != 1 and requestedMenu != 4 and continueCondition == 1:
     print("\nSélectionnez le nombre correspondant à votre requête dans la console Python : \n\
             1 : Afficher le nom de l'auteur à partir du nom d'un fichier texte \n\
             2 : Afficher le prénom correspondant au nom d'un auteur \n\
@@ -112,7 +114,7 @@ while requestedMenu != 1 and continueCondition == 1:
             requestedName = str(input("\nSélectionnez le nom de l'auteur à étudier : "))
         print(findAuthorsFirstName(requestedName))
     elif requestedFunctionality == 3:
-        authorsListDisplay()
+        DisplayAuthorsList()
     elif requestedFunctionality == 4:
         for fileName in listdir("./speeches/"):
             createCleanedFile(fileName)
@@ -130,6 +132,16 @@ while requestedMenu != 1 and continueCondition == 1:
         print(inverseDocumentFrequency())
     elif requestedFunctionality == 8:
         print(createTfidfMatrix())
+    continueCondition = int(input('\nVoulez-vous poursuivre sur ce menu ? (tapez 1 pour continuer ou 0 pour passer à la suite)\n'))
+    while continueCondition < 0 or continueCondition > 1:                                                    # Saisie sécurisée
+        continueCondition = int(input('\nVoulez-vous poursuivre sur ce menu ? (tapez 1 pour continuer ou 0 pour terminer)\n'))
+
+continueCondition = True
+numberOfFunctionalities2 = 8
+while requestedMenu == 4 and continueCondition == 1:
+    print("Sélectionnez votre question :")
+    question = str(input())
+    print(questionManagementToGetAnswer(question))
     continueCondition = int(input('\nVoulez-vous poursuivre sur ce menu ? (tapez 1 pour continuer ou 0 pour passer à la suite)\n'))
     while continueCondition < 0 or continueCondition > 1:                                                    # Saisie sécurisée
         continueCondition = int(input('\nVoulez-vous poursuivre sur ce menu ? (tapez 1 pour continuer ou 0 pour terminer)\n'))
