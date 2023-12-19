@@ -163,7 +163,4 @@ while requestedMenu == 4 and continueCondition == 1:
     while continueCondition < 0 or continueCondition > 1:                                                    # Saisie sécurisée
         continueCondition = int(input('\nVoulez-vous poursuivre sur ce menu ? (tapez 1 pour continuer ou 0 pour terminer)\n'))
 
-for fileName in listdir("./cleaned/"):
-    remove("./cleaned/" + fileName)
-
 print("Utilisation terminée")
