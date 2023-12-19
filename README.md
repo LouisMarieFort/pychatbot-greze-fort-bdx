@@ -22,7 +22,9 @@ Ceci est la liste des fonctions que l’utilisateurs pourra utiliser pour obteni
 
 * findFirstToMention() : Cette fonctionnalité permet d’afficher le(s) premier(s) président(s) à parler d'un certain mot.
 
-* allAuthorsSaid() : Cette fonction permet à l’utilisateur d’afficher les mots que tous les auteurs ont répété et qui ne sont pas 'moins importants'
+* allAuthorsSaid() : Cette fonction permet à l’utilisateur d’afficher les mots que tous les auteurs ont répété et qui ne sont pas 'moins importants'.
+
+* MostRelevantSentence() : Cette fonction permet de renvoyer la phrase la plus 'intéressante' dans le corpus de document à l'utilisateur.
 
 
 
@@ -45,6 +47,20 @@ Ceci est la liste des fonctions plus techniques, permettant à l’utilisateur d
 * inverseDocumentFrequency() : Cette fonction permet d’afficher le dictionnaire IDF du répertoire speeches.
 
 * createTfidfMatrix() : Cette fonction permet d’afficher la matrice TF-IDF du répertoire speeches.
+
+* getLoweredString() : Cette fonction permet de transformer une chaine de caractères en minuscules.
+
+* getStringWords() : Cette fonction permet d'obtenir les mots séparés d'une chaine de caractère sous forme de liste.
+
+* getCleanedQuestion() : Cette fonction permet de retourner la version 'nettoyées' de la question entrée.
+
+* getIntersectionWords() : Cette fonction permet d'obtenir tout les mots qui sont présents à la fois dans le corpus de texte et dans la question.
+
+* getQuestionTf() : Similaire à la fonction termFrequency(), celle-ci permet d'obtenir le nombre d'occurence de chaque mot.
+
+* getQuestionTfidfMatrixSimilaire() : à la fonction createTfidfMatrix(), cette fonction permet d’afficher la matrice TF-IDF du répertoire speeches.
+
+* highestTfidfOfQuestion() : Cette fonction permet d'afficher le ou les mots avec le score tf idf les plus élevés.
 
 
 
