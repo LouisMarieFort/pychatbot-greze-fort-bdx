@@ -44,6 +44,27 @@ inverseDocumentFrequency() : Cette fonction permet d’afficher le dictionnaire 
 
 createTfidfMatrix() : Cette fonction permet d’afficher la matrice TF-IDF du répertoire speeches.
 
+removeFilePunctuation() : Cette fonction permet de supprimer la ponctuation des fichiers 'nettoyés', laissant au final un document texte de mots en minuscules séparés par des espaces.
+
+termFrequency() : Cette fonction permet d’afficher le dictionnaire TF d'un texte, c’est-à-dire le nombre d’occurrences de chaque mot du texte.
+
+inverseDocumentFrequency() : Cette fonction permet d’afficher le dictionnaire IDF du répertoire speeches.
+
+createTfidfMatrix() : Cette fonction permet d’afficher la matrice TF-IDF du répertoire speeches.
+
+getLoweredString() : Cette fonction permet de transformer une chaine de caractères en minuscules.
+
+getStringWords() : Cette fonction permet d'obtenir les mots séparés d'une chaine de caractère sous forme de liste.
+
+getCleanedQuestion() : Cette fonction permet de retourner la version 'nettoyées' de la question entrée.
+
+getIntersectionWords() : Cette fonction permet d'obtenir tout les mots qui sont présents à la fois dans le corpus de texte et dans la question.
+
+getQuestionTf() : Similaire à la fonction termFrequency(), celle-ci permet d'obtenir le nombre d'occurence de chaque mot.
+
+getQuestionTfidfMatrixSimilaire() : à la fonction createTfidfMatrix(), cette fonction permet d’afficher la matrice TF-IDF du répertoire speeches.
+
+highestTfidfOfQuestion() : Cette fonction permet d'afficher le ou les mots avec le score tf idf les plus élevés.
 
 
   Instruction d'utilisation du programme :
