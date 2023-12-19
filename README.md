@@ -22,7 +22,9 @@ Ceci est la liste des fonctions que l’utilisateurs pourra utiliser pour obteni
 
 * findFirstToMention() : Cette fonctionnalité permet d’afficher le(s) premier(s) président(s) à parler d'un certain mot.
 
-* allAuthorsSaid() : Cette fonction permet à l’utilisateur d’afficher les mots que tous les auteurs ont répété et qui ne sont pas 'moins importants'
+* allAuthorsSaid() : Cette fonction permet à l’utilisateur d’afficher les mots que tous les auteurs ont répété et qui ne sont pas 'moins importants'.
+
+* MostRelevantSentence() : Cette fonction permet de renvoyer la phrase la plus 'intéressante' dans le corpus de document à l'utilisateur.
 
 
 
@@ -34,7 +36,7 @@ Ceci est la liste des fonctions plus techniques, permettant à l’utilisateur d
 
 * findAuthorsFirstName() : Cette fonctions permet à l’utilisateur d’afficher le prénom correspondant au nom d'un auteur.
 
-* displayAuthorsList() : Cette fonction permet d’afficher la liste des noms des auteurs.
+* authorsListDisplay() : Cette fonction permet d’afficher la liste des noms des auteurs.
 
 * createCleanedFile() : Cette fonction permet de créer les versions 'nettoyés' des fichiers texte , c’est-à-dire des texte sans majuscules, ni accents juste avec ponctuations et espaces.
 
@@ -46,11 +48,23 @@ Ceci est la liste des fonctions plus techniques, permettant à l’utilisateur d
 
 * createTfidfMatrix() : Cette fonction permet d’afficher la matrice TF-IDF du répertoire speeches.
 
+* getLoweredString() : Cette fonction permet de transformer une chaine de caractères en minuscules.
+
+* getStringWords() : Cette fonction permet d'obtenir les mots séparés d'une chaine de caractère sous forme de liste.
+
+* getCleanedQuestion() : Cette fonction permet de retourner la version 'nettoyées' de la question entrée.
+
+* getIntersectionWords() : Cette fonction permet d'obtenir tout les mots qui sont présents à la fois dans le corpus de texte et dans la question.
+
+* getQuestionTf() : Similaire à la fonction termFrequency(), celle-ci permet d'obtenir le nombre d'occurence de chaque mot.
+
+* getQuestionTfidfMatrixSimilaire() : à la fonction createTfidfMatrix(), cette fonction permet d’afficher la matrice TF-IDF du répertoire speeches.
+
+* highestTfidfOfQuestion() : Cette fonction permet d'afficher le ou les mots avec le score tf idf les plus élevés.
+
 
 
   ## Instruction d'utilisation du programme :
 
 Le plus simple est de lancer le programme main.py et de suivre les instructions du menu dans la console.
 Il est aussi possible, avec une bonne connaissance du projet, de réaliser des programmes utilisant les fonctions disponible directement dans le fichier mainTest.py.
-
-
