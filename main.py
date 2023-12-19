@@ -28,6 +28,8 @@ while requestedMenu < 1 or requestedMenu > 4:
     requestedMenu = int(input())
 
 # Traitement des fichiers du dossier
+for fileName in listdir("./cleaned/"):      # Dans le cas où il y aurait des fichiers dans le dossier "cleaned", ce que l'on ne souhaite pas,
+    remove("./cleaned/" + fileName)         # on les supprime
 for fileName in listdir(directory):
         createCleanedFile(fileName, directory)
         removeFilePunctuation(fileName)
@@ -163,3 +165,5 @@ while requestedMenu == 4 and continueCondition == 1:
 
 for fileName in listdir("./cleaned/"):
     remove("./cleaned/" + fileName)
+
+print("Utilisation terminée")
